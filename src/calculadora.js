@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let operando2 = null;
     let operacion = null;
     let firstOp = true;
+    let lastOp = null;
 
     botones.forEach(button => {
         button.addEventListener('click', () => {
@@ -29,30 +30,35 @@ document.addEventListener('DOMContentLoaded', function() {
                         operacion = '+';
                         display.textContent = '';
                         displayTop.textContent = operando1 + " " + operacion;
+                        lastOp = buttonText;
                         break;
                     case '-':
                         operando1 = parseFloat(display.textContent);
                         operacion = '-';
                         display.textContent = '';
                         displayTop.textContent = operando1 + " " + operacion;
+                        lastOp = buttonText;
                         break;
                     case '/':
                         operando1 = parseFloat(display.textContent);
                         operacion = '/';
                         display.textContent = '';
                         displayTop.textContent = operando1 + " " + operacion;
+                        lastOp = buttonText;
                         break;
                     case 'X':
                         operando1 = parseFloat(display.textContent);
                         operacion = '*';
                         display.textContent = '';
                         displayTop.textContent = operando1 + " " + operacion;
+                        lastOp = buttonText;
                         break;
                     case '%':
                         operando1 = parseFloat(display.textContent);
                         operacion = '%';
                         display.textContent += buttonText;
                         firstOp = true;
+                        lastOp = buttonText;
                         break;
                     case ',':
                         let indicePorcentaje = display.textContent.indexOf(".");
@@ -60,9 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             display.textContent += '.';    
                         }
                         firstOp = true;
+                        lastOp = buttonText;
                         break;
                     case '=':
-                        if (display.textContent !== "") {
+                        if ((display.textContent !== "") && (displayTop.textContent !== "") && (lastOp !== "=")) {
                             firstOp = false;
                             let resultado = null;
                             operando2 = parseFloat(display.textContent);
@@ -99,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     resultado = "0";
                                     break;
                             }
+                            lastOp = buttonText;
                             display.textContent = resultado;
                             break;
                         }
@@ -109,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         operando1 = null;
                         operando2 = null;
                         operacion = null;
+                        lastOp = buttonText;
                         break;
                     default:        // Boton de borrar ultima unidad
                         let displayText = display.textContent;
@@ -119,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         display.textContent = newDisplayText;
                         break;
                 }
+                console.log("lastOp: " + lastOp);
             }
         });
     });    
